@@ -37,7 +37,6 @@ application {
 }
 
 javafx {
-    appId = "Fasdf"
     version = "23.0.2"
 
     modules("javafx.controls", "javafx.base", "javafx.graphics")
