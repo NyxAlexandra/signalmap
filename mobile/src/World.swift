@@ -57,8 +57,10 @@ class World: Observable {
     
 }
 
-/// A series of connected entities that form an area.
-struct Mesh: Observable {
+/// A mapping of an area.
+///
+/// Consists of a sequence of entities connected by lines.
+struct Map: Observable, Encodable {
     private let world: World
     
     private let anchor = AnchorEntity()
@@ -127,8 +129,15 @@ struct Mesh: Observable {
         
         points.removeAll()
         edges.removeAll()
+    }
+    
+    func encode(to encoder: Encoder) throws {
+        // Just encode translations
+        let points = self.points.map { entity in
+            entity.transform.translation
+        }
         
-        
+        try points.encode(to: encoder)
     }
 }
 

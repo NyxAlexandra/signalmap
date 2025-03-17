@@ -34,6 +34,7 @@ repositories {
 
 dependencies {
     implementation("io.github.mkpaz:atlantafx-base:2.0.0")
+    implementation("com.fasterxml.jackson.core:jackson-databind:2.0.1")
     testImplementation("org.junit.jupiter:junit-jupiter:5.11.4")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }

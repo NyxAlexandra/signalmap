@@ -10,9 +10,9 @@ struct Mapper: View {
     /// Manages camera and world state.
     @State
     private var world: World
-    /// The mesh of the current area.
+    /// The map of the current area.
     @State
-    private var mesh: Mesh
+    private var map: Map
     /// The measured readings.
     @State
     private var readings: [Reading]
@@ -28,13 +28,13 @@ struct Mapper: View {
         let world = World()
         
         self.world = world
-        mesh = Mesh(world)
+        map = Map(world)
         readings = []
     }
     
     func addPoint() {
         if let target = world.target {
-            mesh.append(target)
+            map.append(target)
         }
     }
     
@@ -51,6 +51,21 @@ struct Mapper: View {
             }
             
             readings.append(reading)
+            
+            var request = URLRequest(
+                url: URL(string: "http://192.168.9.225:8080/map/create")!
+            )
+            
+            request.httpMethod = "POST"
+            
+            let (idData, _) = try await URLSession.shared.upload(
+                for: request,
+                from: JSONEncoder().encode(map)
+            )
+            let idString = String(data: idData, encoding: .utf8)!
+            let id = Int(idString)!
+            
+            print("received id: \(id)")
         }
     }
 
@@ -76,7 +91,7 @@ struct Mapper: View {
                 }
                 
                 button
-                    .disabled(!mesh.formsArea)
+                    .disabled(!map.formsArea)
                     .buttonStyle(.borderedProminent)
                     .frame(alignment: .center)
                     .padding()

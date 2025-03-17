@@ -1,7 +1,7 @@
 import Foundation
 
 /// A network speed reading.
-struct Reading {
+struct Reading: Codable {
     /// The location the reading was taken at.
     var location: SIMD3<Float>
     /// Download speed in KiB/s.
@@ -54,8 +54,7 @@ struct Reading {
         )
         
         let start = Date.now
-        let (blob, _) = try await URLSession.shared.data(for: request)
-        
+        let (blob, _) = try await URLSession.shared.data(for: request)        
         let end = Date.now
         let elapsed = start.distance(to: end)
         let bytes = blob.count

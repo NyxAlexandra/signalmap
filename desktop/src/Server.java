@@ -21,7 +21,7 @@ public final class Server {
    * Will not be active until {@link Server#start()} is called.
    */
   public Server() throws IOException {
-    server = HttpServer.create(new InetSocketAddress(0), 0);
+    server = HttpServer.create(new InetSocketAddress(8080), 0);
   }
 
   /**
